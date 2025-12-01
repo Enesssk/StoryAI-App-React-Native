@@ -11,6 +11,9 @@ const style = StyleSheet.create({
   scrollView: {
     paddingBottom: verticalScale(16),
   },
+  justifyContent: {
+    justifyContent: 'space-evenly',
+  }
 })
 
 export default style

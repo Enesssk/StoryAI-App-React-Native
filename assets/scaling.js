@@ -32,5 +32,7 @@ const guidelineBaseFonts = () => {
 }
 const scaleFontSize = size => Math.round((width/guidelineBaseFonts())* size)
 
+export const backgroundImageWidth = value => horizontalScale((width*value)/35)
+export const backgroundImageHeight = value => horizontalScale((height*value)/35)
 
 export {horizontalScale, verticalScale, scaleFontSize}
