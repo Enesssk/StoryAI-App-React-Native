@@ -16,14 +16,38 @@ import Animated, {
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../../navigation/Routes';
 import { getStory } from '../../api/service/apiService';
+import { useGenerateStory } from '../../hooks/useGenerateStory';
+import Loading from '../../component/LoadingContainer/Loading';
 
 const Welcome = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState("");
-
+  const { mutate, isPending, } = useGenerateStory({
+    onSuccess: ( data ) => {
+      navigation.navigate(Routes.Home, { story: data }) // data = storyText
+    },
+    onError: ( error ) => {
+      Alert.alert("error", error.message)
+    }
+  })
 
 
   const handleStory = async () => {
+
+    if(value.trim().length <= 3) {
+      Alert.alert("Warning", "Please write something")
+      return
+    }
+
+    const userContents = [{
+      role: "user",
+      parts: [{ text: `Write a two-paragraph children's story about ${value.trim()}.`
+      }]
+    }]
+
+    mutate(userContents) // mutate = run it
+
+    /*
     if (value.length > 3) {
       try {
         const storyTopic = value.trim()
@@ -42,6 +66,7 @@ const Welcome = () => {
       Alert.alert("Warning!",
         "Please write a something.", "Ok",)
     }
+         */
   }
 
   return (
@@ -77,8 +102,15 @@ const Welcome = () => {
         {/* Button */}
         <TouchableOpacity
           onPress={handleStory}
-          style={style.button}>
-            <Text style={style.buttonText}>Generate Story</Text>
+          disabled={isPending}
+          style={[style.button, isPending && {opacity: 0.6}]}>
+          {
+            isPending ? (
+              <Loading />
+            ) : (
+              <Text style={style.buttonText}>Generate Story</Text>
+            )
+          }
         </TouchableOpacity>
       </Animated.View>
 

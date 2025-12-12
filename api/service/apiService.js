@@ -11,7 +11,7 @@ export const getStory = async (contents) => {
     const story = response.data.candidates[0].content.parts[0].text
     return story
   } catch (err) {
-    console.log("error", err)
+     throw err
   }
 
 }
