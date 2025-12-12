@@ -4,20 +4,15 @@ import PropTypes from "prop-types"
 import style from "./style"
 
 const StoryText = props => {
-  const data = Array.isArray(props.data) ? props.data : [];
-
-
   return (
     <View style={style.topContainer}>
-      <Text style={style.text}>{data.text}</Text>
+      <Text style={style.text}>{props.storyText}</Text>
     </View>
   )
 }
 
 StoryText.propTypes = {
-  data: PropTypes.shape({
-    text: PropTypes.string.isRequired,
-  })
+  storyText: PropTypes.string.isRequired,
 }
 
 export default StoryText

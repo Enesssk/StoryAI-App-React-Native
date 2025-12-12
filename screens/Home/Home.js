@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -18,7 +19,8 @@ import { getStory } from '../../api/service/apiService';
 
 const Home = () => {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const storyText = route.params?.story ?? ""
 
   return (
     <SafeAreaView
@@ -28,6 +30,8 @@ const Home = () => {
       <ImageBackground
         style={style.image}
         source={require('../../assets/images/background.png')}/>
+
+      <ScrollView contentContainerStyle={globalStyle.scrollView}>
 
       {/* BackButton */}
       <TouchableOpacity
@@ -40,7 +44,7 @@ const Home = () => {
       <ImageCard />
 
       {/* StoryText */}
-      <StoryText />
+      <StoryText storyText={storyText}/>
 
       <View style={style.bottomContainer}>
 
@@ -56,6 +60,7 @@ const Home = () => {
         </TouchableOpacity>
 
       </View>
+      </ScrollView>
 
     </SafeAreaView>
   )

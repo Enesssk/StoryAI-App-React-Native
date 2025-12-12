@@ -1,4 +1,4 @@
-import React, { useState} from "react"
+import React, { useCallback, useState} from "react"
 import {
   Alert,
   Image,
@@ -13,7 +13,7 @@ import Animated, {
   FadeInDown,
   FadeInRight,
 } from 'react-native-reanimated';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Routes } from '../../navigation/Routes';
 import { getStory } from '../../api/service/apiService';
 import { useGenerateStory } from '../../hooks/useGenerateStory';
@@ -31,6 +31,16 @@ const Welcome = () => {
     }
   })
 
+  useFocusEffect(
+    useCallback(() => {
+      //screen is focused
+      setValue("")
+
+      return () => {
+        //screen gone
+      }
+    }, [])
+  )
 
   const handleStory = async () => {
 
