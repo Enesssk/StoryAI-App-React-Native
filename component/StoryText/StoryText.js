@@ -1,13 +1,23 @@
-import React from "react"
+import React, { useState} from "react"
 import { Text, View } from 'react-native';
+import PropTypes from "prop-types"
 import style from "./style"
 
-const StoryText = () => {
+const StoryText = props => {
+  const data = Array.isArray(props.data) ? props.data : [];
+
+
   return (
     <View style={style.topContainer}>
-      <Text style={style.text}>Kardeşim 55 ile 90. Dakika arasında gs lehine 1 faul dahi çalmayan hakeme ne denir aldığı para haram zıkkım zehir zemberek olsun burnundan kan gelsin Denir buna da YASİN kol denir maçı katletmedi skrinar osimheni biçmedi hakemi alkışlamadı ve kazımcan biçilmedi diyorsan veya dersen şayet seninle arkadaşlığımı bi gözden geririm.</Text>
+      <Text style={style.text}>{data.text}</Text>
     </View>
   )
+}
+
+StoryText.propTypes = {
+  data: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+  })
 }
 
 export default StoryText

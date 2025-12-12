@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState} from "react"
 import {
+  Alert,
   Image,
   Text,
   TextInput,
@@ -14,9 +15,34 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../../navigation/Routes';
+import { getStory } from '../../api/service/apiService';
 
 const Welcome = () => {
   const navigation = useNavigation();
+  const [value, setValue] = useState("");
+
+
+
+  const handleStory = async () => {
+    if (value.length > 3) {
+      try {
+        const storyTopic = value.trim()
+        const userContents = [{
+          role: "user",
+          parts: [{ text: `Write a two-paragraph children's story about ${storyTopic}.`
+          }]
+        }]
+        const userStory = await getStory(userContents)
+        console.log(userStory)
+        navigation.navigate(Routes.Home)
+      }catch (err) {
+        console.log("welcome error", err);
+      }
+    } else {
+      Alert.alert("Warning!",
+        "Please write a something.", "Ok",)
+    }
+  }
 
   return (
     <Animated.View
@@ -43,12 +69,14 @@ const Welcome = () => {
           <TextInput
             style={style.textInput}
             placeholder={"Write something.."}
+            value={value}
+            onChangeText={(val) => setValue(val)}
           />
         </View>
 
         {/* Button */}
         <TouchableOpacity
-          onPress={() => navigation.navigate(Routes.Home)}
+          onPress={handleStory}
           style={style.button}>
             <Text style={style.buttonText}>Generate Story</Text>
         </TouchableOpacity>

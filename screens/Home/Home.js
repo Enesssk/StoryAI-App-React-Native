@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Image,
   ImageBackground,
   SafeAreaView,
   Text,
@@ -12,12 +11,15 @@ import style from "./style"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { scaleFontSize } from '../../assets/scaling';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import ImageCard from '../../component/ImageCard/ImageCard';
 import StoryText from '../../component/StoryText/StoryText';
+import { getStory } from '../../api/service/apiService';
 
 const Home = () => {
   const navigation = useNavigation();
+
+
   return (
     <SafeAreaView
       style={globalStyle.flex}>
@@ -39,7 +41,7 @@ const Home = () => {
 
       {/* StoryText */}
       <StoryText />
-      
+
       <View style={style.bottomContainer}>
 
         {/* Previous */}
