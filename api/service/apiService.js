@@ -8,8 +8,12 @@ export const getStory = async (contents) => {
         contents: contents
     })
 
-    const story = response.data.candidates[0].content.parts[0].text
-    return story
+    const rawText = response.data.candidates[0].content.parts[0].text
+    const cleanedText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(cleanedText)
+
+    return parsed.story
+
   } catch (err) {
      throw err
   }

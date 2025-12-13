@@ -10,8 +10,8 @@ import {
 const style = StyleSheet.create({
   image: {
     position: "absolute",
-    width: backgroundImageWidth(35),
-    height: backgroundImageHeight(35),
+    width: "100%",
+    height: "100%",
   },
   textContainer: {
     alignItems: "center",

@@ -13,27 +13,66 @@ const style = StyleSheet.create({
     height: backgroundImageHeight(35),
   },
   backButtonContainer: {
-    width: horizontalScale(35),
-    height: verticalScale(35),
+    width: horizontalScale(30),
+    height: verticalScale(30),
     borderRadius: horizontalScale(10),
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     marginTop: verticalScale(12),
-    marginLeft: horizontalScale(12),
+    marginLeft: horizontalScale(20),
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  storyTextContainer: {
+    flex: 1,
+    overflow: 'hidden',
   },
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginHorizontal: horizontalScale(20),
-    marginVertical: verticalScale(32),
+    marginBottom: verticalScale(8),
     padding: horizontalScale(6),
   },
   bottomText: {
     fontSize: scaleFontSize(18),
-    fontWeight: 'bold',
-    color: "rgba(237,232,232,0.56)",
+    fontWeight: 600,
+    color: "rgba(248,237,237,0.74)",
   },
+  prevButton: {
+    paddingHorizontal: horizontalScale(8),
+    paddingVertical: verticalScale(8),
+    borderRadius: horizontalScale(8),
+    backgroundColor: "black"
+  },
+  textContainer: {
+    paddingVertical: verticalScale(8),
+  },
+  page: {
+    flex: 1,
+    marginHorizontal: horizontalScale(20),
+    marginBottom: verticalScale(8),
+    borderRadius: horizontalScale(16),
+    padding: horizontalScale(12),
+    backgroundColor: 'rgba(0,0,0,0.18)',
+  },
+
+  pageShadowRight: {
+    shadowColor: '#000',
+    shadowOffset: { width: -10, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    elevation: 10,
+  },
+
+  pageShadowLeft: {
+    shadowColor: '#000',
+    shadowOffset: { width: 10, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    elevation: 10,
+  },
+
 })
 
 export default style

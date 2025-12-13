@@ -7,16 +7,14 @@ import {
 
 const style = StyleSheet.create({
   topContainer: {
-    marginVertical: verticalScale(4),
-    marginHorizontal: horizontalScale(20),
     alignItems: "flex-start"
   },
   text: {
     fontSize: scaleFontSize(18),
-    fontWeight: 'bold',
+    fontWeight: 600,
     color: "white",
     textAlign: "left",
-    padding: horizontalScale(6),
+    padding: horizontalScale(3),
   }
 })
 

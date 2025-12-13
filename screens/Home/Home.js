@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ImageBackground,
   SafeAreaView,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -15,12 +14,39 @@ import { scaleFontSize } from '../../assets/scaling';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ImageCard from '../../component/ImageCard/ImageCard';
 import StoryText from '../../component/StoryText/StoryText';
-import { getStory } from '../../api/service/apiService';
+import Reanimated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeInRight,
+  FadeOutLeft,
+  FadeOutRight,
+} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const storyText = route.params?.story ?? ""
+  const storyText = route.params?.story ?? []
+  const [index, setIndex] = useState(0);
+  const direction = useRef(1);
+  const pageKey = `page-${index}`
+  const imageKey = `image-${index}`
+
+  const next = () => {
+    if (index < storyText.length-1) {
+      direction.current = 1
+      setIndex(i => i + 1)
+    }
+  }
+
+  const prev = () => {
+    if (index > 0) {
+      direction.current = -1;
+      setIndex(i => i - 1)
+    }
+  }
+
+  const currentIndex = storyText[index] ?? {}
 
   return (
     <SafeAreaView
@@ -29,38 +55,76 @@ const Home = () => {
       {/* Background */}
       <ImageBackground
         style={style.image}
-        source={require('../../assets/images/background.png')}/>
+        source={require('../../assets/images/background_app.png')}/>
 
-      <ScrollView contentContainerStyle={globalStyle.scrollView}>
+      <Animated.View
+        entering={FadeInDown.delay(300).springify()}
+        style={globalStyle.flex}>
 
       {/* BackButton */}
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={style.backButtonContainer}>
-        <FontAwesomeIcon icon={faArrowLeft} size={scaleFontSize(28)} color={"black"}/>
+        <FontAwesomeIcon icon={faArrowLeft} size={scaleFontSize(26)} color={"white"}/>
       </TouchableOpacity>
 
       {/* StoryImage */}
-      <ImageCard />
+        <Animated.View
+          key={imageKey}>
+            <ImageCard />
+        </Animated.View>
 
-      {/* StoryText */}
-      <StoryText storyText={storyText}/>
+        {/* StoryText */}
+        <View style={style.storyTextContainer}>
+          <Animated.View
+            key={pageKey}
+            entering={
+              direction.current === 1
+                ? FadeInRight.duration(280)
+                : FadeInLeft.duration(280)
+            }
+            exiting={
+              direction.current === 1
+                ? FadeOutLeft.duration(220)
+                : FadeOutRight.duration(220)
+            }
+            style={[
+              style.page,
+              direction.current === 1 ? style.pageShadowRight : style.pageShadowLeft,
+            ]}
+          >
+            <StoryText storyText={currentIndex.text ?? ""} />
+          </Animated.View>
+        </View>
 
-      <View style={style.bottomContainer}>
+        <Animated.View
+        entering={FadeInRight.delay(200).springify()}
+        style={style.bottomContainer}>
 
         {/* Previous */}
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={prev}
+          style={ index === 0 ? [style.prevButton, {opacity: 0.6}] : style.prevButton}
+          disabled={index === 0}
+        >
           <Text style={style.bottomText}>Previous</Text>
         </TouchableOpacity>
-        <Text style={style.bottomText}>1/9</Text>
 
+        <View style={style.textContainer}>
+          <Text style={style.bottomText}>{currentIndex.id}/{storyText.length}</Text>`
+
+        </View>
         {/* Next */}
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={next}
+          disabled={index === storyText.length-1}
+          style={index === storyText.length - 1 ? [style.prevButton, {opacity: 0.6}] : style.prevButton}
+        >
           <Text style={style.bottomText}>Next</Text>
         </TouchableOpacity>
 
-      </View>
-      </ScrollView>
+      </Animated.View>
+      </Animated.View>
 
     </SafeAreaView>
   )
