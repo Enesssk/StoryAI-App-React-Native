@@ -43,7 +43,7 @@ const style = StyleSheet.create({
     paddingHorizontal: horizontalScale(8),
     paddingVertical: verticalScale(8),
     borderRadius: horizontalScale(8),
-    backgroundColor: "black"
+    backgroundColor: "#000"
   },
   textContainer: {
     paddingVertical: verticalScale(8),
@@ -51,7 +51,7 @@ const style = StyleSheet.create({
   page: {
     flex: 1,
     marginHorizontal: horizontalScale(20),
-    marginBottom: verticalScale(8),
+    marginVertical: verticalScale(8),
     borderRadius: horizontalScale(16),
     padding: horizontalScale(12),
     backgroundColor: 'rgba(0,0,0,0.18)',

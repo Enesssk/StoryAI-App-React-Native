@@ -26,27 +26,29 @@ import Animated from 'react-native-reanimated';
 const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const storyText = route.params?.story ?? []
+  const story = route.params?.story ?? []
   const [index, setIndex] = useState(0);
   const direction = useRef(1);
   const pageKey = `page-${index}`
   const imageKey = `image-${index}`
 
+
+  const currentIndex = story[index]
+
   const next = () => {
-    if (index < storyText.length-1) {
+    if (index < story.length-1) {
       direction.current = 1
       setIndex(i => i + 1)
     }
   }
 
-  const prev = () => {
+  const prev = async () => {
     if (index > 0) {
       direction.current = -1;
       setIndex(i => i - 1)
     }
   }
 
-  const currentIndex = storyText[index] ?? {}
 
   return (
     <SafeAreaView
@@ -70,8 +72,19 @@ const Home = () => {
 
       {/* StoryImage */}
         <Animated.View
-          key={imageKey}>
-            <ImageCard />
+          key={pageKey}
+          entering={
+            direction.current === 1
+              ? FadeInRight.duration(280)
+              : FadeInLeft.duration(280)
+          }
+          exiting={
+            direction.current === 1
+              ? FadeOutLeft.duration(220)
+              : FadeOutRight.duration(220)
+          }
+        >
+            <ImageCard image={currentIndex.image ?? null}/>
         </Animated.View>
 
         {/* StoryText */}
@@ -111,14 +124,14 @@ const Home = () => {
         </TouchableOpacity>
 
         <View style={style.textContainer}>
-          <Text style={style.bottomText}>{currentIndex.id}/{storyText.length}</Text>`
+          <Text style={style.bottomText}>{currentIndex.id}/{story.length}</Text>`
 
         </View>
         {/* Next */}
         <TouchableOpacity
           onPress={next}
-          disabled={index === storyText.length-1}
-          style={index === storyText.length - 1 ? [style.prevButton, {opacity: 0.6}] : style.prevButton}
+          disabled={index === story.length-1}
+          style={index === story.length - 1 ? [style.prevButton, {opacity: 0.6}] : style.prevButton}
         >
           <Text style={style.bottomText}>Next</Text>
         </TouchableOpacity>

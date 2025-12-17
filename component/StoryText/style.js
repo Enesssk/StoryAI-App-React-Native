@@ -7,7 +7,7 @@ import {
 
 const style = StyleSheet.create({
   topContainer: {
-    alignItems: "flex-start"
+    alignItems: "flex-start",
   },
   text: {
     fontSize: scaleFontSize(18),

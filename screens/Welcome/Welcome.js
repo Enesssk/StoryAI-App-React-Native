@@ -15,22 +15,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Routes } from '../../navigation/Routes';
-import { getStory } from '../../api/service/apiService';
 import { useGenerateStory } from '../../hooks/useGenerateStory';
 import Loading from '../../component/LoadingContainer/Loading';
+import * as Promise from 'axios';
 
 const Welcome = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState("");
-
-  const { mutate, isPending, } = useGenerateStory({
-    onSuccess: ( data ) => {
-      navigation.navigate(Routes.Home, { story: data }) // data = storyText
-    },
-    onError: ( error ) => {
-      Alert.alert("error", error.message)
-    }
-  })
 
   useFocusEffect(
     useCallback(() => {
@@ -42,6 +33,19 @@ const Welcome = () => {
       }
     }, [])
   )
+
+  const { mutate, isPending, } = useGenerateStory({
+    onSuccess: async ( data ) => {
+      navigation.navigate(Routes.Home, { story: data }) // data = storyText and images
+    },
+    onError: ( error ) => {
+      if (error?.response) {
+        Alert.alert("API Error", error.message);
+      } else {
+        console.log("UI error ignored:", error.message);
+      }
+    }
+  })
 
   const handleStory = async () => {
 
@@ -77,28 +81,7 @@ const Welcome = () => {
 
     mutate(userContents) // mutate = run it
 
-    /*
-    if (value.length > 3) {
-      try {
-        const storyTopic = value.trim()
-        const userContents = [{
-          role: "user",
-          parts: [{ text: `Write a two-paragraph children's story about ${storyTopic}.`
-          }]
-        }]
-        const userStory = await getStory(userContents)
-        console.log(userStory)
-        navigation.navigate(Routes.Home)
-      }catch (err) {
-        console.log("welcome error", err);
-      }
-    } else {
-      Alert.alert("Warning!",
-        "Please write a something.", "Ok",)
-    }
-         */
   }
-
 
   return (
     <Animated.View
